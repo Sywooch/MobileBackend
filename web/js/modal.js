@@ -1,6 +1,7 @@
-
-$('#category-create').on('click', function() {
-    $('#category-modal').modal('show')
-        .find('#category-modal-content')
-        .load($(this).attr('data-target'));
+$(function(){
+   $('#category-create').click(function(){
+       $('#category_modal').modal('show')
+           .find('#category_model_content')
+           .load($(this).attr('value'));
+   });
 });
