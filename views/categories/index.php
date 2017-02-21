@@ -1,62 +1,63 @@
 <?php
-
-use yii\helpers\Html;
-use yii\grid\GridView;
-use yii\bootstrap\Modal;
 use yii\helpers\Url;
+use yii\helpers\Html;
+use yii\bootstrap\Modal;
+use kartik\grid\GridView;
+use johnitvn\ajaxcrud\CrudAsset; 
+use johnitvn\ajaxcrud\BulkButtonWidget;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CategoriesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Категории';
-$this->params['breadcrumbs'][] = $this->title;
+
+CrudAsset::register($this);
+
 ?>
-
-<?php
-    Modal::begin([
-        'header' => '<h4>Добавить категорию</h4>',
-        'id' => 'category_modal',
-        'size' => 'xs'
-    ]);
-    echo "<div id='category_model_content'></div>";
-    Modal::end();
-?>
-
-<div class="row">
-    <div class="col-md-4">
-        <div class="box box-success">
-            <div class="box-header with-border">
-                <h3 class="box-title">Категории</h3>
-            </div>
-            <div class="box-body no-padding">
-                <div class="row">
-                    <div class="col-md-12 col-sm-12">
-                        <div class="pad">
-                            <div class="categories-index">
-                                <?= Html::button('Добавить категорию', ['value'=>Url::to(['/categories/create']), 'class'=>'btn btn-success', 'id'=>'category-create']) ?>
-                                </p>
-                                    <?= GridView::widget([
-                                        'dataProvider' => $dataProvider,
-                                        'filterModel' => $searchModel,
-                                        'columns' => [
-                                            ['class' => 'yii\grid\SerialColumn'],
-
-                                            'name',
-                                            'description:ntext',
-
-                                            [
-                                                'class' => 'yii\grid\ActionColumn',
-                                                'template' => '{update} {delete}'
-                                            ],
-                                        ],
-                                    ]); ?>
-                                <p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="categories-index">
+    <div id="ajaxCrudDatatable">
+        <?=GridView::widget([
+            'id'=>'crud-datatable',
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'pjax'=>true,
+            'columns' => require(__DIR__.'/_columns.php'),
+            'toolbar'=> [
+                ['content'=>
+                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
+                    ['role'=>'modal-remote','title'=> 'Добавить категорию','class'=>'btn btn-default']).
+                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
+                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Обновить']).
+                    '{toggleData}'.
+                    '{export}'
+                ],
+            ],          
+            'striped' => true,
+            'condensed' => true,
+            'responsive' => true,          
+            'panel' => [
+                'type' => 'primary', 
+                'heading' => '<i class="glyphicon glyphicon-list"></i> Категории',
+                'after'=>BulkButtonWidget::widget([
+                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Удалить',
+                                ["bulk-delete"] ,
+                                [
+                                    "class"=>"btn btn-danger btn-xs",
+                                    'role'=>'modal-remote-bulk',
+                                    'data-confirm'=>'Вы действительно хотите удалить данные записи?', 'data-method'=>false,// for overide yii data api
+                                    'data-request-method'=>'post',
+                                    'data-confirm-title'=>'Are you sure?',
+                                    'data-confirm-message'=>'Are you sure want to delete this item'
+                                ]),
+                        ]).                        
+                        '<div class="clearfix"></div>',
+            ]
+        ])?>
     </div>
 </div>
+<?php Modal::begin([
+    "id"=>"ajaxCrudModal",
+    "footer"=>"",// always need it for jquery plugin
+])?>
+<?php Modal::end(); ?>
