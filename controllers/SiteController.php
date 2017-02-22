@@ -19,10 +19,10 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['logout', 'index', 'contact', 'about', 'change_password'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'index', 'contact', 'about', 'change_password'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -53,11 +53,36 @@ class SiteController extends Controller
         ];
     }
 
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
+    public function actionChange_password()
+    {
+        $user = Yii::$app->user->identity;
+        $loadedPost = $user->load(Yii::$app->request->post());
+        if ($loadedPost) {
+            if ($user->validate()) {
+                $new_no_hash_password = $user->newPassword;
+                $user->password_hash = $user->newPassword;
+                $user->password_hash = Yii::$app->getSecurity()->generatePasswordHash($user->password_hash);
+                $user->save(false);
+                //Отправка письма с измененным паролем
+                $email = \Yii::$app->mailer->compose()
+                    ->setTo($user->email)
+                    ->setFrom("crm.urich@gmail.com")
+                    ->setSubject('Zappa Admin')
+                    ->setTextBody("Здравствуйте, " . $user->username . " Вы успешно изменили свой пароль.\n\nВаш новый пароль: ".$new_no_hash_password)
+                    ->send();
+                if ($email) {
+                    Yii::$app->getSession()->setFlash('success', 'Вы успешно поменяли пароль. Вам был отправлен Email с вашим новым паролем!');
+                } else {
+                    Yii::$app->getSession()->setFlash('warning', 'Ошибка! Не удалось отправить письмо с паролем.');
+                }
+                return $this->refresh();
+            }
+        }
+        return $this->render("change_password", [
+            'user' => $user,
+        ]);
+    }
+
     public function actionIndex()
     {
         return $this->render('index');

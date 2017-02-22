@@ -2,8 +2,8 @@
 -- version 4.4.15.7
 -- http://www.phpmyadmin.net
 --
--- Хост: 127.0.0.1:3306
--- Время создания: Фев 22 2017 г., 17:30
+-- Хост: 127.0.0.1:3307
+-- Время создания: Фев 22 2017 г., 21:48
 -- Версия сервера: 5.5.50
 -- Версия PHP: 5.6.23
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- База данных: `Zappa`
+-- База данных: `zappa`
 --
 
 -- --------------------------------------------------------
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `name` varchar(255) NOT NULL,
   `description` text,
   `image` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `categories`
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `clients` (
   `name` varchar(255) NOT NULL,
   `phone` varchar(255) NOT NULL,
   `address` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `clients`
@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `products` (
   `price` float NOT NULL,
   `count` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `products`
@@ -104,6 +104,26 @@ CREATE TABLE IF NOT EXISTS `products` (
 INSERT INTO `products` (`id`, `categories_id`, `name`, `description`, `image`, `price`, `count`, `date`) VALUES
 (14, 3, 'Тортик', 'Неплохой торт', 'uploads/58ad555bd4f32.jpg', 200, 10, '2017-02-22 09:09:47'),
 (15, 3, 'Тортик2', 'Тоже сойдет', 'uploads/58ad55704dacd.jpg', 150, 9, '2017-02-22 09:10:08');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `user`
+--
+
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(11) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password_hash` varchar(255) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `user`
+--
+
+INSERT INTO `user` (`id`, `username`, `email`, `password_hash`) VALUES
+(1, 'admin', 'vlad.vasyakot@mail.ru', '$2y$13$IUcdql7yI3wkHWkO2AmuTOh5167w3MHvlE4yBlQOwhZksFeU1TNMq');
 
 --
 -- Индексы сохранённых таблиц
@@ -136,6 +156,12 @@ ALTER TABLE `products`
   ADD KEY `categories_id` (`categories_id`);
 
 --
+-- Индексы таблицы `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT для сохранённых таблиц
 --
 
@@ -143,12 +169,12 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT для таблицы `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT для таблицы `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT для таблицы `orders`
 --
@@ -158,7 +184,12 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT для таблицы `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
+--
+-- AUTO_INCREMENT для таблицы `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- Ограничения внешнего ключа сохраненных таблиц
 --

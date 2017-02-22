@@ -54,6 +54,7 @@ class  RestProductsController extends ActiveController
 
     public function actionPostOrder(){
         $data = json_decode(json_encode(\Yii::$app->request->post()), true);
+        var_dump($data);die;
         if (isset($data) && !empty($data)){
             foreach($data as $item){
                 $model = new Clients();
@@ -69,5 +70,6 @@ class  RestProductsController extends ActiveController
                     ->send();
             }
         }
+        return 1;
     }
 }

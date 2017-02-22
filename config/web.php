@@ -66,6 +66,7 @@ $config = [
         ]
     ],
     'params' => $params,
+    'defaultRoute' => 'orders/index',
 ];
 
 if (YII_ENV_DEV) {
