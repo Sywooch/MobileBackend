@@ -3,18 +3,19 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Categories;
-use app\models\CategoriesSearch;
+use app\models\Products;
+use app\models\ProductsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\UploadedFile;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\web\UploadedFile;
 
-
-
-class CategoriesController extends Controller
+/**
+ * ProductsController implements the CRUD actions for Products model.
+ */
+class ProductsController extends Controller
 {
 
     public function behaviors()
@@ -33,7 +34,7 @@ class CategoriesController extends Controller
 
     public function actionIndex()
     {    
-        $searchModel = new CategoriesSearch();
+        $searchModel = new ProductsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -49,7 +50,7 @@ class CategoriesController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Категория",
+                    'title'=> "Продукт",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -67,19 +68,22 @@ class CategoriesController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new Categories();  
+        $model = new Products();
 
         if($request->isAjax){
             $imageName = uniqid();
             $model->file = UploadedFile::getInstance($model, 'file');
             if (isset($model->file) && !empty($model->file)) {
-                $model->file->saveAs('uploads/categories/' . $imageName . '.' . $model->file->extension);
-                $model->image = 'uploads/categories/' . $imageName . '.' . $model->file->extension;
+                $model->file->saveAs('uploads/' . $imageName . '.' . $model->file->extension);
+                $model->image = 'uploads/' . $imageName . '.' . $model->file->extension;
             }
+            /*
+            *   Process for ajax request
+            */
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Добавить новую категорию",
+                    'title'=> "Добавить новый продукт",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -87,18 +91,18 @@ class CategoriesController extends Controller
                                 Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
+            }else if($model->load($request->post()) && $model->save() && $model->validate()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Добавить новую категорию",
-                    'content'=>'<span class="text-success">Категория успешно добавлена</span>',
+                    'title'=> "Добавить новый продукт",
+                    'content'=>'<span class="text-success">Вы успешно добавили продукт</span>',
                     'footer'=> Html::button('Закрыть',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Добавить еще',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
-                ];         
-            }else{           
+                ];
+            }else{
                 return [
-                    'title'=> "Добавить новую категорию",
+                    'title'=> "Добавить новый продукт",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -111,6 +115,7 @@ class CategoriesController extends Controller
             /*
             *   Process for non-ajax request
             */
+
             if ($model->load($request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
@@ -134,8 +139,8 @@ class CategoriesController extends Controller
             if (!empty($model->image)){
                 unlink(getcwd().'/'.$model->image);
             }
-            $model->file->saveAs( 'uploads/categories/'.$imageName.'.'.$model->file->extension );
-            $model->image = 'uploads/categories/'.$imageName.'.'.$model->file->extension;
+            $model->file->saveAs( 'uploads/'.$imageName.'.'.$model->file->extension );
+            $model->image = 'uploads/'.$imageName.'.'.$model->file->extension;
             $model->save(false);
         }
 
@@ -146,7 +151,7 @@ class CategoriesController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Обновить категорию",
+                    'title'=> "Обновить продукт",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -156,7 +161,7 @@ class CategoriesController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Категория #".$id,
+                    'title'=> "Продукт #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -165,7 +170,7 @@ class CategoriesController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Обновить категорию ",
+                    'title'=> "Обновить продукт",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -243,7 +248,7 @@ class CategoriesController extends Controller
 
     protected function findModel($id)
     {
-        if (($model = Categories::findOne($id)) !== null) {
+        if (($model = Products::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

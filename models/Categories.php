@@ -15,41 +15,36 @@ use Yii;
  */
 class Categories extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
+    public $file;
+
     public static function tableName()
     {
         return 'categories';
     }
 
-    /**
-     * @inheritdoc
-     */
+
     public function rules()
     {
         return [
             [['name'], 'required'],
             [['description'], 'string'],
             [['name'], 'string', 'max' => 255],
+            [['file'], 'image', 'extensions' => 'png, jpg', 'minWidth' => 300, 'minHeight' => 300],
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
+
     public function attributeLabels()
     {
         return [
             'id' => 'ID',
             'name' => 'Категория',
             'description' => 'Описание',
+            'file' => 'Фото',
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
+
     public function getProducts()
     {
         return $this->hasMany(Products::className(), ['categories_id' => 'id']);

@@ -19,14 +19,14 @@
                 'items' => [
                     ['label' => 'Меню', 'options' => ['class' => 'header']],
                     ['label' => 'Панель администратора', 'icon' => 'fa fa-dashboard', 'url' => ['#']],
-                    ['label' => 'Заказы', 'icon' => 'fa fa-shopping-cart', 'url' => ['#']],
-                    ['label' => 'Пользователи', 'icon' => 'fa fa-user-circle', 'url' => ['#']],
+                    ['label' => 'Заказы', 'icon' => 'fa fa-shopping-cart', 'url' => ['/orders']],
+                    ['label' => 'Клиенты', 'icon' => 'fa fa-user-circle', 'url' => ['/clients']],
                     [
                         'label' => 'Настройки',
                         'icon' => 'fa fa-cog',
                         'url' => '#',
                         'items' => [
-                            ['label' => 'Товары', 'icon' => 'fa fa-cube', 'url' => ['#'],],
+                            ['label' => 'Товары', 'icon' => 'fa fa-cube', 'url' => ['/products'],],
                             ['label' => 'Категории', 'icon' => 'fa fa-sitemap', 'url' => ['/categories'],],
                         ],
                     ],

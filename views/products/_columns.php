@@ -1,6 +1,8 @@
 <?php
 use yii\helpers\Url;
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
+use app\models\Categories;
 
 return [
     [
@@ -27,14 +29,31 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'header' => 'Категория',
+        'header' => 'Наименование',
         'attribute'=>'name',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'header' => 'Категория',
+        'attribute'=>'categories_id',
+        'value'=>'categories.name',
+        'filter'=>ArrayHelper::map(Categories::find()->asArray()->orderBy('name')->all(), 'id', 'name'),
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'header' => 'Описание',
         'attribute'=>'description',
     ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'header' => 'Цена',
+        'attribute'=>'price',
+    ],
+     [
+         'class'=>'\kartik\grid\DataColumn',
+         'header' => 'Количество',
+         'attribute'=>'count',
+     ],
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,

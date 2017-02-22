@@ -7,15 +7,15 @@ use johnitvn\ajaxcrud\CrudAsset;
 use johnitvn\ajaxcrud\BulkButtonWidget;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\CategoriesSearch */
+/* @var $searchModel app\models\OrdersSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Категории';
+$this->title = 'Заказы';
 
 CrudAsset::register($this);
 
 ?>
-<div class="categories-index">
+<div class="orders-index">
     <div id="ajaxCrudDatatable">
         <?=GridView::widget([
             'id'=>'crud-datatable',
@@ -26,10 +26,11 @@ CrudAsset::register($this);
             'toolbar'=> [
                 ['content'=>
                     Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
-                    ['role'=>'modal-remote','title'=> 'Добавить категорию','class'=>'btn btn-default']).
+                    ['role'=>'modal-remote','title'=> 'Добавить новый заказ','class'=>'btn btn-default']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
                     ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Обновить']).
-                    '{toggleData}'
+                    '{toggleData}'.
+                    '{export}'
                 ],
             ],          
             'striped' => true,
@@ -37,14 +38,14 @@ CrudAsset::register($this);
             'responsive' => true,          
             'panel' => [
                 'type' => 'primary', 
-                'heading' => '<i class="glyphicon glyphicon-list"></i> Категории',
+                'heading' => '<i class="glyphicon glyphicon-list"></i> Список заказов',
                 'after'=>BulkButtonWidget::widget([
                             'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Удалить',
                                 ["bulk-delete"] ,
                                 [
                                     "class"=>"btn btn-danger btn-xs",
                                     'role'=>'modal-remote-bulk',
-                                    'data-confirm'=>'Вы действительно хотите удалить данные записи?', 'data-method'=>false,// for overide yii data api
+                                    'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                                     'data-request-method'=>'post',
                                     'data-confirm-title'=>'Are you sure?',
                                     'data-confirm-message'=>'Are you sure want to delete this item'

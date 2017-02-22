@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Фев 21 2017 г., 16:45
+-- Время создания: Фев 22 2017 г., 17:30
 -- Версия сервера: 5.5.50
 -- Версия PHP: 5.6.23
 
@@ -29,16 +29,17 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `categories` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `description` text
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `description` text,
+  `image` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `categories`
 --
 
-INSERT INTO `categories` (`id`, `name`, `description`) VALUES
-(1, 'Кофе', ''),
-(2, 'Десерты', '');
+INSERT INTO `categories` (`id`, `name`, `description`, `image`) VALUES
+(2, 'Десерты', '', NULL),
+(3, 'Торты', '', NULL);
 
 -- --------------------------------------------------------
 
@@ -50,8 +51,16 @@ CREATE TABLE IF NOT EXISTS `clients` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `phone` varchar(255) NOT NULL,
-  `address` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `address` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `clients`
+--
+
+INSERT INTO `clients` (`id`, `name`, `phone`, `address`) VALUES
+(1, 'Вася', '+380972592659', ''),
+(2, 'Иван', '+380972561781', 'ул.Набережная 17/121');
 
 -- --------------------------------------------------------
 
@@ -81,11 +90,20 @@ CREATE TABLE IF NOT EXISTS `products` (
   `id` int(11) NOT NULL,
   `categories_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  `image` varchar(255) NOT NULL,
+  `description` text,
+  `image` varchar(255) DEFAULT NULL,
   `price` float NOT NULL,
-  `count` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `count` int(11) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `products`
+--
+
+INSERT INTO `products` (`id`, `categories_id`, `name`, `description`, `image`, `price`, `count`, `date`) VALUES
+(14, 3, 'Тортик', 'Неплохой торт', 'uploads/58ad555bd4f32.jpg', 200, 10, '2017-02-22 09:09:47'),
+(15, 3, 'Тортик2', 'Тоже сойдет', 'uploads/58ad55704dacd.jpg', 150, 9, '2017-02-22 09:10:08');
 
 --
 -- Индексы сохранённых таблиц
@@ -125,12 +143,12 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT для таблицы `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT для таблицы `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT для таблицы `orders`
 --
@@ -140,7 +158,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT для таблицы `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=24;
 --
 -- Ограничения внешнего ключа сохраненных таблиц
 --

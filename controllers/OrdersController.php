@@ -3,20 +3,22 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Categories;
-use app\models\CategoriesSearch;
+use app\models\Orders;
+use app\models\OrdersSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\UploadedFile;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 
-
-
-class CategoriesController extends Controller
+/**
+ * OrdersController implements the CRUD actions for Orders model.
+ */
+class OrdersController extends Controller
 {
-
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
         return [
@@ -30,10 +32,13 @@ class CategoriesController extends Controller
         ];
     }
 
-
+    /**
+     * Lists all Orders models.
+     * @return mixed
+     */
     public function actionIndex()
     {    
-        $searchModel = new CategoriesSearch();
+        $searchModel = new OrdersSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -43,18 +48,23 @@ class CategoriesController extends Controller
     }
 
 
+    /**
+     * Displays a single Orders model.
+     * @param integer $id
+     * @return mixed
+     */
     public function actionView($id)
     {   
         $request = Yii::$app->request;
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Категория",
+                    'title'=> "Заказ",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
                     'footer'=> Html::button('Закрыть',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Обновить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Edit',['Обновить','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -63,23 +73,25 @@ class CategoriesController extends Controller
         }
     }
 
-
+    /**
+     * Creates a new Orders model.
+     * For ajax request will return json object
+     * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new Categories();  
+        $model = new Orders();  
 
         if($request->isAjax){
-            $imageName = uniqid();
-            $model->file = UploadedFile::getInstance($model, 'file');
-            if (isset($model->file) && !empty($model->file)) {
-                $model->file->saveAs('uploads/categories/' . $imageName . '.' . $model->file->extension);
-                $model->image = 'uploads/categories/' . $imageName . '.' . $model->file->extension;
-            }
+            /*
+            *   Process for ajax request
+            */
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Добавить новую категорию",
+                    'title'=> "Добавить новый заказ",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -90,15 +102,15 @@ class CategoriesController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Добавить новую категорию",
-                    'content'=>'<span class="text-success">Категория успешно добавлена</span>',
+                    'title'=> "Добавить новый заказ",
+                    'content'=>'<span class="text-success">Заказ успешно добавлен</span>',
                     'footer'=> Html::button('Закрыть',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Добавить еще',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Добавить новую категорию",
+                    'title'=> "Добавить новый заказ",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -122,22 +134,17 @@ class CategoriesController extends Controller
        
     }
 
-
+    /**
+     * Updates an existing Orders model.
+     * For ajax request will return json object
+     * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
-        $model = $this->findModel($id);
-
-        $imageName = uniqid();
-        $model->file = UploadedFile::getInstance($model, 'file');
-        if (!empty($model->file)) {
-            if (!empty($model->image)){
-                unlink(getcwd().'/'.$model->image);
-            }
-            $model->file->saveAs( 'uploads/categories/'.$imageName.'.'.$model->file->extension );
-            $model->image = 'uploads/categories/'.$imageName.'.'.$model->file->extension;
-            $model->save(false);
-        }
+        $model = $this->findModel($id);       
 
         if($request->isAjax){
             /*
@@ -146,7 +153,7 @@ class CategoriesController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Обновить категорию",
+                    'title'=> "Обновить заказ",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -156,7 +163,7 @@ class CategoriesController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Категория #".$id,
+                    'title'=> "Заказ",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -165,7 +172,7 @@ class CategoriesController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Обновить категорию ",
+                    'title'=> "Обновить заказ",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -187,13 +194,16 @@ class CategoriesController extends Controller
         }
     }
 
-
+    /**
+     * Delete an existing Orders model.
+     * For ajax request will return json object
+     * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     */
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
-        if (!empty($this->findModel($id)->image)){
-            unlink(getcwd().'/'.$this->findModel($id)->image);
-        }
         $this->findModel($id)->delete();
 
         if($request->isAjax){
@@ -212,16 +222,19 @@ class CategoriesController extends Controller
 
     }
 
-
+     /**
+     * Delete multiple existing Orders model.
+     * For ajax request will return json object
+     * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     */
     public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
         $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
         foreach ( $pks as $pk ) {
             $model = $this->findModel($pk);
-            if (!empty($model->image)){
-                unlink(getcwd().'/'.$model->image);
-            }
             $model->delete();
         }
 
@@ -240,10 +253,16 @@ class CategoriesController extends Controller
        
     }
 
-
+    /**
+     * Finds the Orders model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return Orders the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
     protected function findModel($id)
     {
-        if (($model = Categories::findOne($id)) !== null) {
+        if (($model = Orders::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

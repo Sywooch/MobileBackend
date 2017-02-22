@@ -1,6 +1,5 @@
 <?php
 use yii\helpers\Url;
-use yii\helpers\Html;
 
 return [
     [
@@ -17,23 +16,18 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute' => 'image',
-        'header' => 'Фото',
-        'format' => 'html',
-        'value' => function ($data) {
-            return Html::img("../../web/".$data['image'],
-                ['width' => '70px', 'height' => '70px']);
-        },
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'header' => 'Категория',
+        'header' => 'Имя',
         'attribute'=>'name',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'header' => 'Описание',
-        'attribute'=>'description',
+        'header' => 'Телефон',
+        'attribute'=>'phone',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'header' => 'Адрес',
+        'attribute'=>'address',
     ],
     [
         'class' => 'kartik\grid\ActionColumn',
@@ -44,7 +38,7 @@ return [
         },
         'viewOptions'=>['role'=>'modal-remote','title'=>'Просмотреть','data-toggle'=>'tooltip'],
         'updateOptions'=>['role'=>'modal-remote','title'=>'Обновить', 'data-toggle'=>'tooltip'],
-        'deleteOptions'=>['role'=>'modal-remote','title'=>'Удалить',
+        'deleteOptions'=>['role'=>'modal-remote','title'=>'Удалить', 
                           'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                           'data-request-method'=>'post',
                           'data-toggle'=>'tooltip',
