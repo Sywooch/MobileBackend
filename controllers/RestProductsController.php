@@ -41,7 +41,7 @@ class  RestProductsController extends ActiveController
     public function actionPostRequest(){
         $data = json_decode(json_encode(\Yii::$app->request->post()), true);
         $names = '';
-        $count = '';
+        $count = 0;
         $price = 0;
         if (isset($data) && !empty($data)) {
             foreach($data as $method){
@@ -74,11 +74,11 @@ class  RestProductsController extends ActiveController
                         $model_orders->deliveryAddress = $item['deliveryAddress'];
                         foreach ($item['orderedProductIds'] as $product){
                             $names .= $model_orders->getProduct($product['productId'])->name . ', ';
-                            $count .= $product['productCount'] . ', ';
+                            $count += $product['productCount'];
                             $price += $model_orders->getProduct($product['productId'])->price * $product['productCount'];
                         }
                         $model_orders->product = substr($names, 0, -2);
-                        $model_orders->count = substr($count, 0, -2);;
+                        $model_orders->count = $count;
                         $model_orders->status = 0;
                         $model_orders->price = $price;
                         

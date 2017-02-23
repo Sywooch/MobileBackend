@@ -34,10 +34,10 @@ class Orders extends \yii\db\ActiveRecord
     {
         return [
             [['product', 'customerName', 'customerPhone', 'deliveryAddress', 'count', 'status', 'price'], 'required'],
-            [['status'], 'integer'],
+            [['status', 'count'], 'integer'],
             [['price'], 'number'],
             [['date'], 'safe'],
-            [['product', 'customerName', 'customerPhone', 'deliveryAddress', 'count'], 'string', 'max' => 255],
+            [['product', 'customerName', 'customerPhone', 'deliveryAddress'], 'string', 'max' => 255],
         ];
     }
 
@@ -61,5 +61,23 @@ class Orders extends \yii\db\ActiveRecord
     
     public function getProduct($id){
         return Products::find()->where('id='.$id)->one();
+    }
+
+    const StatusZero = 0;
+    const StatusOne = 1;
+    const StatusTwo = 2;
+    const StatusThree = 3;
+
+    public function getStatusName()
+    {
+        $values = array(
+            self::StatusZero => 'В ожидании',
+            self::StatusOne => 'Принято',
+            self::StatusTwo => 'Отказано',
+            self::StatusThree => 'Выдано'
+        );
+        if(isset($values[$this->status])) {
+            return $values[$this->status];
+        }
     }
 }

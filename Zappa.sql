@@ -2,8 +2,8 @@
 -- version 4.4.15.7
 -- http://www.phpmyadmin.net
 --
--- Хост: 127.0.0.1:3306
--- Время создания: Фев 23 2017 г., 17:53
+-- Хост: 127.0.0.1:3307
+-- Время создания: Фев 23 2017 г., 21:40
 -- Версия сервера: 5.5.50
 -- Версия PHP: 5.6.23
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- База данных: `zappa_new`
+-- База данных: `zappa`
 --
 
 -- --------------------------------------------------------
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `clients` (
   `name` varchar(255) NOT NULL,
   `phone` varchar(255) NOT NULL,
   `address` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `clients`
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `status` int(11) NOT NULL DEFAULT '0',
   `price` float NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -174,12 +174,12 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT для таблицы `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT для таблицы `products`
 --

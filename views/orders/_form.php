@@ -13,19 +13,22 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'product')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'count')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'customerName')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'customerPhone')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'deliveryAddress')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'count')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'status')->textInput() ?>
-
     <?= $form->field($model, 'price')->textInput() ?>
 
-    <?= $form->field($model, 'date')->textInput() ?>
+    <?= $form->field($model, 'status')->dropDownList([
+    '0' => 'В ожидании',
+    '1' => 'Принято',
+    '2' => 'Отказано',
+    '3' => 'Выдано'
+    ]); ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

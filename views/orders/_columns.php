@@ -48,6 +48,8 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'header' => 'Статус',
         'attribute'=>'status',
+        'value'=>'statusName',
+        'filter' => array("0"=>"В ожидании", "1"=>"Принято", "2"=>"Отказано", "3"=>"Выдано"),
     ],
      [
          'class'=>'\kartik\grid\DataColumn',

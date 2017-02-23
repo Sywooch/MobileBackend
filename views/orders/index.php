@@ -22,6 +22,21 @@ CrudAsset::register($this);
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'pjax'=>true,
+            'rowOptions' => function( $model ){
+                if($model->status == '0')
+                {
+                    return ['class' => 'info'];
+                } else if($model->status == '1')
+                {
+                    return ['class' => 'warning'];
+                } else if($model->status == '2')
+                {
+                    return ['class' => 'danger'];
+                } else if($model->status == '3')
+                {
+                    return ['class' => 'success'];
+                }
+            },
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
                 ['content'=>

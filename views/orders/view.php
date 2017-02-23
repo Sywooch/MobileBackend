@@ -11,12 +11,15 @@ use yii\widgets\DetailView;
         'model' => $model,
         'attributes' => [
             'product',
+            'count',
             'customerName',
             'customerPhone',
             'deliveryAddress',
-            'count',
-            'status',
             'price',
+            [
+                'attribute' => 'status',
+                'value' => $model->statusName,
+            ],
             'date',
         ],
     ]) ?>
