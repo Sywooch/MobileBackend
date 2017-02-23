@@ -8,16 +8,14 @@ use Yii;
  * This is the model class for table "orders".
  *
  * @property integer $id
- * @property integer $product_id
+ * @property string $product
  * @property string $customerName
  * @property string $customerPhone
  * @property string $deliveryAddress
- * @property integer $count
+ * @property string $count
  * @property integer $status
  * @property double $price
  * @property string $date
- *
- * @property Products $product
  */
 class Orders extends \yii\db\ActiveRecord
 {
@@ -35,12 +33,11 @@ class Orders extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'customerName', 'customerPhone', 'deliveryAddress', 'count', 'status', 'price'], 'required'],
-            [['product_id', 'count', 'status'], 'integer'],
+            [['product', 'customerName', 'customerPhone', 'deliveryAddress', 'count', 'status', 'price'], 'required'],
+            [['status'], 'integer'],
             [['price'], 'number'],
             [['date'], 'safe'],
-            [['customerName', 'customerPhone', 'deliveryAddress'], 'string', 'max' => 255],
-            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Products::className(), 'targetAttribute' => ['product_id' => 'id']],
+            [['product', 'customerName', 'customerPhone', 'deliveryAddress', 'count'], 'string', 'max' => 255],
         ];
     }
 
@@ -51,22 +48,18 @@ class Orders extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'product_id' => 'Товар',
-            'customerName' => 'Клиент',
-            'customerPhone' => 'Телефон',
+            'product' => 'Товары',
+            'customerName' => 'Имя покупателя',
+            'customerPhone' => 'Телефон покупателя',
             'deliveryAddress' => 'Адрес доставки',
             'count' => 'Количество',
-            'price' => 'Цена',
-            'date' => 'Дата заказа',
             'status' => 'Статус',
+            'price' => 'Общая цена',
+            'date' => 'Дата заказа',
         ];
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProduct()
-    {
-        return $this->hasOne(Products::className(), ['id' => 'product_id']);
+    
+    public function getProduct($id){
+        return Products::find()->where('id='.$id)->one();
     }
 }

@@ -12,14 +12,10 @@ use yii\filters\AccessControl;
 use \yii\web\Response;
 use yii\helpers\Html;
 
-/**
- * OrdersController implements the CRUD actions for Orders model.
- */
+
 class OrdersController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
+
     public function behaviors()
     {
         return [
@@ -42,10 +38,7 @@ class OrdersController extends Controller
         ];
     }
 
-    /**
-     * Lists all Orders models.
-     * @return mixed
-     */
+
     public function actionIndex()
     {    
         $searchModel = new OrdersSearch();
@@ -58,11 +51,6 @@ class OrdersController extends Controller
     }
 
 
-    /**
-     * Displays a single Orders model.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionView($id)
     {   
         $request = Yii::$app->request;
@@ -74,7 +62,7 @@ class OrdersController extends Controller
                         'model' => $this->findModel($id),
                     ]),
                     'footer'=> Html::button('Закрыть',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['Обновить','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Обновить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -83,12 +71,7 @@ class OrdersController extends Controller
         }
     }
 
-    /**
-     * Creates a new Orders model.
-     * For ajax request will return json object
-     * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
+
     public function actionCreate()
     {
         $request = Yii::$app->request;
@@ -113,7 +96,7 @@ class OrdersController extends Controller
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Добавить новый заказ",
-                    'content'=>'<span class="text-success">Заказ успешно добавлен</span>',
+                    'content'=>'<span class="text-success">Create Orders success</span>',
                     'footer'=> Html::button('Закрыть',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Добавить еще',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
@@ -144,13 +127,7 @@ class OrdersController extends Controller
        
     }
 
-    /**
-     * Updates an existing Orders model.
-     * For ajax request will return json object
-     * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
+
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
@@ -204,13 +181,7 @@ class OrdersController extends Controller
         }
     }
 
-    /**
-     * Delete an existing Orders model.
-     * For ajax request will return json object
-     * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
+
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
@@ -232,13 +203,7 @@ class OrdersController extends Controller
 
     }
 
-     /**
-     * Delete multiple existing Orders model.
-     * For ajax request will return json object
-     * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
+
     public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
@@ -263,13 +228,7 @@ class OrdersController extends Controller
        
     }
 
-    /**
-     * Finds the Orders model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Orders the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+
     protected function findModel($id)
     {
         if (($model = Orders::findOne($id)) !== null) {

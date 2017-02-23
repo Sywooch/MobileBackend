@@ -11,7 +11,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'product_id')->textInput() ?>
+    <?= $form->field($model, 'product')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'customerName')->textInput(['maxlength' => true]) ?>
 
@@ -19,18 +19,18 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'deliveryAddress')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'count')->textInput() ?>
+    <?= $form->field($model, 'count')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'status')->textInput() ?>
 
     <?= $form->field($model, 'price')->textInput() ?>
 
-    <?= $form->field($model, 'date')->hiddenInput() ?>
+    <?= $form->field($model, 'date')->textInput() ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>
 	  	<div class="form-group">
-	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+	        <?= Html::submitButton($model->isNewRecord ? 'Сохранить' : 'Обновить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 	    </div>
 	<?php } ?>
 

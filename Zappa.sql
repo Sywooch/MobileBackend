@@ -2,8 +2,8 @@
 -- version 4.4.15.7
 -- http://www.phpmyadmin.net
 --
--- Хост: 127.0.0.1:3307
--- Время создания: Фев 22 2017 г., 21:48
+-- Хост: 127.0.0.1:3306
+-- Время создания: Фев 23 2017 г., 17:53
 -- Версия сервера: 5.5.50
 -- Версия PHP: 5.6.23
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- База данных: `zappa`
+-- База данных: `zappa_new`
 --
 
 -- --------------------------------------------------------
@@ -70,12 +70,12 @@ INSERT INTO `clients` (`id`, `name`, `phone`, `address`) VALUES
 
 CREATE TABLE IF NOT EXISTS `orders` (
   `id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
+  `product` varchar(255) NOT NULL,
   `customerName` varchar(255) NOT NULL,
   `customerPhone` varchar(255) NOT NULL,
   `deliveryAddress` varchar(255) NOT NULL,
-  `count` int(11) NOT NULL,
-  `status` int(11) NOT NULL,
+  `count` varchar(255) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0',
   `price` float NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password_hash`) VALUES
-(1, 'admin', 'vlad.vasyakot@mail.ru', '$2y$13$IUcdql7yI3wkHWkO2AmuTOh5167w3MHvlE4yBlQOwhZksFeU1TNMq');
+(1, 'admin', 'vlad.vasyakot@mail.ru', '$2y$13$sR.fELVyT2PrZdN3zNgY.e3o3TqoXyUTikioIFgLBIZ47pi1AeR9m');
 
 --
 -- Индексы сохранённых таблиц
@@ -146,7 +146,7 @@ ALTER TABLE `clients`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `product_id` (`product_id`);
+  ADD KEY `product_id` (`product`);
 
 --
 -- Индексы таблицы `products`
@@ -193,12 +193,6 @@ ALTER TABLE `user`
 --
 -- Ограничения внешнего ключа сохраненных таблиц
 --
-
---
--- Ограничения внешнего ключа таблицы `orders`
---
-ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 
 --
 -- Ограничения внешнего ключа таблицы `products`

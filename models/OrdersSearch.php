@@ -18,8 +18,8 @@ class OrdersSearch extends Orders
     public function rules()
     {
         return [
-            [['id', 'product_id', 'count', 'status'], 'integer'],
-            [['customerName', 'customerPhone', 'deliveryAddress', 'date'], 'safe'],
+            [['id', 'status'], 'integer'],
+            [['product', 'customerName', 'customerPhone', 'deliveryAddress', 'count', 'date'], 'safe'],
             [['price'], 'number'],
         ];
     }
@@ -42,7 +42,7 @@ class OrdersSearch extends Orders
      */
     public function search($params)
     {
-        $query = Orders::find();
+        $query = Orders::find()->orderBy('date DESC');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -58,16 +58,16 @@ class OrdersSearch extends Orders
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'product_id' => $this->product_id,
-            'count' => $this->count,
             'status' => $this->status,
             'price' => $this->price,
             'date' => $this->date,
         ]);
 
-        $query->andFilterWhere(['like', 'customerName', $this->customerName])
+        $query->andFilterWhere(['like', 'product', $this->product])
+            ->andFilterWhere(['like', 'customerName', $this->customerName])
             ->andFilterWhere(['like', 'customerPhone', $this->customerPhone])
-            ->andFilterWhere(['like', 'deliveryAddress', $this->deliveryAddress]);
+            ->andFilterWhere(['like', 'deliveryAddress', $this->deliveryAddress])
+            ->andFilterWhere(['like', 'count', $this->count]);
 
         return $dataProvider;
     }

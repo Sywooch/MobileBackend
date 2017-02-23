@@ -16,17 +16,22 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'header' => 'Товар',
-        'attribute'=>'product_id',
+        'header' => 'Товары',
+        'attribute'=>'product',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'header' => 'Клиент',
+        'header' => 'Количество товаров',
+        'attribute'=>'count',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'header' => 'Имя покупателя',
         'attribute'=>'customerName',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'header' => 'Телефон',
+        'header' => 'Телефон покупателя',
         'attribute'=>'customerPhone',
     ],
     [
@@ -34,26 +39,21 @@ return [
         'header' => 'Адрес доставки',
         'attribute'=>'deliveryAddress',
     ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'header' => 'Количество',
-        'attribute'=>'count',
-    ],
      [
          'class'=>'\kartik\grid\DataColumn',
-         'header' => 'Цена',
+         'header' => 'Общая сумма',
          'attribute'=>'price',
-     ],
-     [
-         'class'=>'\kartik\grid\DataColumn',
-         'header' => 'Дата заказа',
-         'attribute'=>'date',
      ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'header' => 'Статус',
         'attribute'=>'status',
     ],
+     [
+         'class'=>'\kartik\grid\DataColumn',
+         'header' => 'Дата заказа',
+         'attribute'=>'date',
+     ],
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
@@ -61,9 +61,9 @@ return [
         'urlCreator' => function($action, $model, $key, $index) { 
                 return Url::to([$action,'id'=>$key]);
         },
-        'viewOptions'=>['role'=>'modal-remote','title'=>'View','data-toggle'=>'tooltip'],
-        'updateOptions'=>['role'=>'modal-remote','title'=>'Update', 'data-toggle'=>'tooltip'],
-        'deleteOptions'=>['role'=>'modal-remote','title'=>'Delete', 
+        'viewOptions'=>['role'=>'modal-remote','title'=>'Просмотреть','data-toggle'=>'tooltip'],
+        'updateOptions'=>['role'=>'modal-remote','title'=>'Обновить', 'data-toggle'=>'tooltip'],
+        'deleteOptions'=>['role'=>'modal-remote','title'=>'Удалить',
                           'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                           'data-request-method'=>'post',
                           'data-toggle'=>'tooltip',
