@@ -171,7 +171,7 @@ class ProductsController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Продукт #".$id,
+                    'title'=> "Продукт",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),

@@ -45,21 +45,21 @@ class  RestProductsController extends ActiveController
         $price = 0;
         if (isset($data) && !empty($data)) {
             foreach($data as $method){
-                if($method['getCategory']){
+                if($method['method'] == 'getCategory'){
                     $activeData = new ActiveDataProvider([
                         'query' => Categories::find(),
                         'pagination' => false,
                     ]);
                     return $activeData;
                 }
-                if($method['getProducts']){
+                if($method['method'] == 'getProducts'){
                     $activeData = new ActiveDataProvider([
                         'query' => Products ::find()->where('count > 0'),
                         'pagination' => false,
                     ]);
                     return $activeData;
                 }
-                if($method['postOrder']){
+                if($method['method'] == 'postOrder'){
                     foreach($data as $item){
                         //Заполнение таблицы Клиенты (имя, телефон, адрес)
                         $model = new Clients();
@@ -84,13 +84,13 @@ class  RestProductsController extends ActiveController
                         
                         $model->save();
                         $model_orders->save();
-
-//                $email = \Yii::$app->mailer->compose()
-//                    ->setTo('vlad.vasyakot@mail.ru')
-//                    ->setFrom("crm.urich@gmail.com")
-//                    ->setSubject('Пришел новый заказ')
-//                    ->setHtmlBody('<HTML>'.Html::a('Перейти к заказам', ['/orders/index']).'</HTML>')
-//                    ->send();
+                        \Yii::$app->mailer->compose(
+                            ['html' => 'layouts/html']
+                        )
+                            ->setTo('vlad.vasyakot@mail.ru')
+                            ->setFrom("crm.urich@gmail.com")
+                            ->setSubject('Пришел новый заказ')
+                            ->send();
                     }
                     return 1;
                 } else {
